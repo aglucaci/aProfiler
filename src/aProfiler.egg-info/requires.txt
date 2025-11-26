@@ -1,0 +1,11 @@
+numpy
+pandas
+matplotlib
+seaborn
+biopython
+scipy
+scikit-learn
+plotnine
+tqdm
+logomaker
+umap-learn
