@@ -11,8 +11,9 @@
 from __future__ import annotations
 
 from collections import Counter
+from collections import defaultdict
 from pathlib import Path
-from typing import Dict, List, Tuple
+from typing import Dict, List, Tuple, Optional
 
 import csv
 import itertools
@@ -36,8 +37,12 @@ from umap import UMAP
 import logomaker as lm
 from plotnine import ggplot, aes, geom_point, theme_minimal, labs
 
-from collections import Counter  # you already have this
-from collections import defaultdict  # add this if not present
+import warnings
+warnings.filterwarnings("ignore", category=UserWarning, module="umap")
+warnings.filterwarnings("ignore", category=UserWarning, module="plotnine")
+warnings.filterwarnings("ignore", category=UserWarning, module="plotnine.ggplot")
+#warnings.filterwarnings("ignore", category=PlotnineWarning, module="plotnine")
+warnings.filterwarnings("ignore", message="Tight layout not applied")
 
 # =============================================================================
 # Declares
@@ -98,15 +103,30 @@ class AlignmentProfiler:
       - PNG plots (results/)
     """
 
-    def __init__(self, input_path: str, mode: str = "auto", out_dir: str = "results") -> None:
+    def __init__(
+        self,
+        input_path: str,
+        mode: str = "auto",
+        out_dir: Optional[str | Path] = None,
+        max_seqs: Optional[int] = None,
+        max_sites: Optional[int] = None,
+        seed: Optional[int] = None,
+        embeddings: bool = True,
+    ) -> None:
         self.path = Path(input_path)
-        self.mode = mode  # "nt", "aa", "codon", or "auto"
-        self.out_dir = Path(out_dir)
-        self.out_dir.mkdir(exist_ok=True)
+        self.mode = mode
+        self.out_dir = Path(out_dir) if out_dir is not None else Path("results")
 
-        self.headers: List[str] = []
-        self.sequences: List[str] = []
-        self.alignment_length: int | None = None  # in characters (nt or aa)
+        self.max_seqs = max_seqs
+        self.max_sites = max_sites
+        self.random_state = seed
+        self.embeddings_enabled = embeddings
+
+        self.headers = []
+        self.sequences = []
+        self.alignment_length = 0
+
+        self.out_dir.mkdir(parents=True, exist_ok=True)
 
     # -------------------------------------------------------------------------
     # Mode detection (IUPAC-aware)
@@ -163,34 +183,56 @@ class AlignmentProfiler:
     # -------------------------------------------------------------------------
     def load_alignment(self) -> None:
         """
-        Load an MSA from FASTA using BioPython.
-        Auto-detect nt/aa if mode == 'auto' (never codon).
+        Load an MSA from a FASTA file into memory.
+
+        - Reads all sequences with BioPython.
+        - Forces a rectangular alignment by trimming to the minimum length
+          if there is minor length variation.
+        - Sets `self.alignment_length` to the resulting alignment width.
         """
+
         if not self.path.exists():
             raise FileNotFoundError(f"Input file not found: {self.path}")
 
-        headers: List[str] = []
-        seqs: List[str] = []
+        records = list(SeqIO.parse(str(self.path), "fasta"))
 
-        for rec in SeqIO.parse(str(self.path), "fasta"):
-            seq = str(rec.seq).upper()
-            headers.append(rec.id)
-            seqs.append(seq)
-
-            if self.alignment_length is None:
-                self.alignment_length = len(seq)
-            elif len(seq) != self.alignment_length:
-                print(
-                    f"[aProfiler] Warning: sequence '{rec.id}' "
-                    f"has length {len(seq)} != {self.alignment_length}"
-                )
-
-        if not seqs:
+        if not records:
             raise ValueError(f"No sequences found in FASTA file: {self.path}")
+
+        headers: List[str] = []
+        seqs_raw: List[str] = []
+
+        for rec in records:
+            headers.append(rec.id)
+            seqs_raw.append(str(rec.seq).upper())
+
+        lengths = [len(s) for s in seqs_raw]
+        min_len = min(lengths)
+        max_len = max(lengths)
+
+        if min_len == 0:
+            raise ValueError(
+                f"At least one sequence in {self.path} has length 0. "
+                "Alignment length cannot be zero."
+            )
+
+        if min_len != max_len:
+            print(
+                f"[aProfiler] Warning: alignment has variable sequence lengths "
+                f"(min={min_len}, max={max_len}). "
+                f"Truncating all sequences to min length {min_len}."
+            )
+            seqs = [s[:min_len] for s in seqs_raw]
+            aln_len = min_len
+        else:
+            seqs = seqs_raw
+            aln_len = max_len
 
         self.headers = headers
         self.sequences = seqs
+        self.alignment_length = aln_len
 
+        # Auto-detect mode if requested
         if self.mode == "auto":
             self.mode = self.detect_sequence_mode()
         else:
@@ -364,21 +406,53 @@ class AlignmentProfiler:
         df.to_csv(out_file, index=False)
         return out_file
 
-    def plot_entropy_track(self) -> Path:
-        """Line plot of per-site entropy (nt mode)."""
-        df = self.per_site_nt_metrics(include_gaps=True)
+    def plot_entropy_track(self) -> Optional[Path]:
+        """
+        Plot per-site entropy (in bits) across the alignment.
 
-        fig, ax = plt.subplots(figsize=(9, 3))
+        Expects a per-site NT metrics dataframe, but tolerates:
+        - empty dataframes
+        - missing or differently-named columns (e.g. `site` or `entropy`)
+        """
+
+        df = self.per_site_nt_metrics()
+
+        # If completely empty, skip
+        if df is None or len(df) == 0:
+            print("[aProfiler] Warning: per-site NT metrics empty; skipping entropy plot.")
+            return None
+
+        # Ensure we have a positional axis
+        if "position" not in df.columns:
+            if "site" in df.columns:
+                df = df.rename(columns={"site": "position"})
+            else:
+                # Fallback: synthesize 1..N
+                df["position"] = np.arange(1, len(df) + 1)
+
+        # Ensure we have an entropy column named entropy_bits
+        if "entropy_bits" not in df.columns:
+            if "entropy" in df.columns:
+                df = df.rename(columns={"entropy": "entropy_bits"})
+            else:
+                print(
+                    "[aProfiler] Warning: no entropy column found in per-site NT metrics; "
+                    "skipping entropy plot."
+                )
+                return None
+
+        fig, ax = plt.subplots(figsize=(10, 3))
         sns.lineplot(data=df, x="position", y="entropy_bits", ax=ax)
         ax.set_xlabel("Position")
         ax.set_ylabel("Entropy (bits)")
         ax.set_title(f"Per-site entropy – {self.path.stem}")
         fig.tight_layout()
 
-        out_file = self.out_dir / f"{self.path.stem}_entropy_track.png"
-        fig.savefig(out_file, dpi=300)
+        out_path = self.out_dir / f"{self.path.stem}_entropy.png"
+        fig.savefig(out_path, dpi=300)
         plt.close(fig)
-        return out_file
+        return out_path
+
 
     # -------------------------------------------------------------------------
     # SEQUENCE LOGO (nt mode via logomaker)
@@ -1159,7 +1233,10 @@ class AlignmentProfiler:
                 if make_plots:
                     # Existing plots
                     outputs["global_freqs_plot"] = self.plot_global_freqs()
-                    outputs["entropy_plot"] = self.plot_entropy_track()
+                    entropy_path = self.plot_entropy_track()
+                    if entropy_path is not None:
+                        outputs["entropy_plot"] = entropy_path
+
                     outputs["logo_plot"] = self.plot_sequence_logo()
 
                     # NEW nt-specific plots
@@ -1189,19 +1266,80 @@ class AlignmentProfiler:
     
 
 
-def run_profile(input_path: str, mode: str = "auto", make_plots: bool = True) -> None:
+def run_profile(
+    input_path: str,
+    mode: str = "auto",
+    make_plots: bool = True,
+    make_report: bool = False,
+    report_format: str = "md",
+    max_seqs: Optional[int] = None,
+    max_sites: Optional[int] = None,
+    seed: Optional[int] = None,
+    embeddings: bool = True,
+    make_summary_card: bool = False,
+) -> None:
     """
-    Function used by the CLI entrypoint.
-    Plots are ON by default.
+    CLI-facing helper for running a full profile on an alignment.
+
+    Parameters
+    ----------
+    input_path : str
+        Path to the input MSA file.
+    mode : {"nt","aa","codon","auto"}
+        Alignment mode.
+    make_plots : bool
+        Whether to generate plot files (PNG/SVG) as well as CSV tables.
+    make_report : bool
+        Whether to generate a summary report file.
+    report_format : {"md","html"}
+        Format for report if make_report is True.
+    max_seqs : int, optional
+        Max number of sequences to use for heavy visualizations/embeddings.
+    max_sites : int, optional
+        Reserved for future: max number of sites (columns) for heavy plots.
+    seed : int, optional
+        Random seed for subsampling and embedding reproducibility.
+    embeddings : bool
+        If False, skip PCA/UMAP computations.
+    make_summary_card : bool
+        If True, generate a condensed summary card Markdown file.
     """
-    profiler = AlignmentProfiler(input_path=input_path, mode=mode)
+    profiler = AlignmentProfiler(
+        input_path=input_path,
+        mode=mode,
+        max_seqs=max_seqs,
+        max_sites=max_sites,
+        seed=seed,
+        embeddings=embeddings,
+    )
     profiler.load_alignment()
-    outputs = profiler.run_full_profile(make_plots=make_plots)
+    outputs: Dict[str, Path] = profiler.run_full_profile(make_plots=make_plots)
 
     print("[aProfiler] Profiling complete. Outputs:")
     for key, path in outputs.items():
         print(f"  • {key}: {path}")
-        
+
     if make_report:
-        report_path = profiler.generate_report(outputs, fmt=report_format)
-        print(f"[aProfiler] Report generated: {report_path}")
+        if hasattr(profiler, "generate_report"):
+            report_path = profiler.generate_report(outputs, fmt=report_format)
+            print(f"[aProfiler] Report generated: {report_path}")
+        else:
+            print(
+                "[aProfiler] Warning: --report requested, "
+                "but generate_report(...) is not implemented in this version."
+            )
+
+    if make_summary_card:
+        if hasattr(profiler, "generate_summary_card"):
+            card_path = profiler.generate_summary_card(outputs, fmt="md")
+            print(f"[aProfiler] Summary card generated: {card_path}")
+        else:
+            print(
+                "[aProfiler] Warning: --summary-card requested, "
+                "but generate_summary_card(...) is not implemented in this version."
+            )
+            
+
+# =============================================================================
+# End of file
+# =============================================================================

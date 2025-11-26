@@ -34,16 +34,17 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--report",
         action="store_true",
-        help="Generate a summary report (Markdown by default).",
+        help="Generate a summary report (HTML by default).",
     )
     parser.add_argument(
         "--report-format",
         choices=["md", "html"],
-        default="md",
-        help="Report format if --report is set (default: md).",
+        default="html",
+        help="Report format if --report is set (default: html).",
     )
 
     return parser
+# end method
 
 
 def main(argv=None):

@@ -29,6 +29,12 @@ pip install -e .
 
 ```bash
 aprofiler --input alignment.fasta --mode auto --report
+
+Examples on test data:
+aprofiler --input .\data\test-TP53-nt.fasta --report
+aprofiler --input .\data\test-TP53-nt.fasta --report --mode codon
+aprofiler --input .\data\test-TP53-aa.fasta --report
+
 ```
 
 ### Modes
@@ -49,11 +55,6 @@ aprofiler --input alignment.fasta --mode auto --report
 | `--report`        | Generate a summary report (`.md` or `.html`)               |
 | `--report-format` | `md` or `html` (default: `md`)                             |
 | `--no-plots`      | Skip plots, output CSV tables only                         |
-| `--max-seqs`      | Downsample sequences for visualizations                    |
-| `--max-sites`     | Crop columns for logos/heatmaps/logos                      |
-| `--seed`          | Fixed seed for reproducible embeddings/visuals             |
-| `--no-embeddings` | Skip dimensionality-reduction steps (PCA/UMAP)             |
-| `--summary-card`  | Output condensed tables for social media or talks          |
 
 ---
 
@@ -125,7 +126,7 @@ results/
     TP53_nt_per_site.csv
     TP53_pca_embedding.csv
     TP53_umap_embedding.csv
-    TP53_report.md
+    TP53_report.html
     plots/
       TP53_nt_logo.png
       TP53_entropy.png
@@ -206,8 +207,3 @@ Issues, discussions, and pull requests are welcome. Ensure contributions are:
 * non-destructive to unrelated files
 * aligned with package philosophy and constraints
 
----
-
-## Brand Identity
-
-aProfiler is **alignment-useful, metrics-first, codon-aware when requested, embedding-stable, plot-default, science-fun.**
