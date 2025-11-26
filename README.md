@@ -6,7 +6,7 @@ aProfiler is a pre-model alignment profiling tool for Multiple Sequence Alignmen
 
 Example code 
 
-```python3 profile.py --alignment data/Benchmark/adh.nex --output results/adh.nex.csv```
+```python3 profile.py --alignment data/Primate_TP53.codons.cln.fa --output results/Primate_TP53.codons.cln.fa.csv```
 
 Example output 
 
