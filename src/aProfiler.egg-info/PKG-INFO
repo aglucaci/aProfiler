@@ -50,7 +50,11 @@ pip install -e .
 ```bash
 aprofiler --input alignment.fasta --mode auto --report
 
-aprofiler --input alignment.fasta --mode auto --report
+Examples on test data:
+aprofiler --input .\data\test-TP53-nt.fasta --report
+aprofiler --input .\data\test-TP53-nt.fasta --report --mode codon
+aprofiler --input .\data\test-TP53-aa.fasta --report
+
 ```
 
 ### Modes
@@ -142,7 +146,7 @@ results/
     TP53_nt_per_site.csv
     TP53_pca_embedding.csv
     TP53_umap_embedding.csv
-    TP53_report.md
+    TP53_report.html
     plots/
       TP53_nt_logo.png
       TP53_entropy.png

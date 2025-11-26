@@ -1141,7 +1141,7 @@ class AlignmentProfiler:
                 for key, p in other_items:
                     lines.append(f"- **{key}** – `{rel(p)}`")
     
-            report_path = self.out_dir / f"{self.path.stem}_report.md"
+            report_path = self.out_dir / f"{self.path.stem}_{self.mode}_report.md"
             report_path.write_text("\n".join(lines), encoding="utf-8")
             return report_path
     
@@ -1190,7 +1190,7 @@ class AlignmentProfiler:
     
             html_lines.append("</body></html>")
     
-            report_path = self.out_dir / f"{self.path.stem}_report.html"
+            report_path = self.out_dir / f"{self.path.stem}_{self.mode}_report.html"
             report_path.write_text("\n".join(html_lines), encoding="utf-8")
             return report_path
     
