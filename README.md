@@ -1,6 +1,6 @@
-# alignmentProfiler
+# aProfiler (Alignment Profiler)
 
-A package to get summary statistics and diagnostics for a multiple sequence alignment
+aProfiler is a pre-model alignment profiling tool for Multiple Sequence Alignments (MSAs) that quantifies diversity, conservation, entropy, and gap structure; and creates output tables and visualizations
 
 ## Test run
 
