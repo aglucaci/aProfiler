@@ -1,17 +1,17 @@
-<p align="center">
-  <img src="https://img.shields.io/badge/version-0.1.0-blue.svg" alt="version">
-  <img src="https://img.shields.io/badge/python-3.9%20|%203.10%20|%203.11%20|%203.12-blue.svg" alt="python versions">
-  <img src="https://img.shields.io/badge/license-MIT-green.svg" alt="license">
-  <img src="https://img.shields.io/badge/build-passing-brightgreen.svg" alt="build status">
-  <img src="https://img.shields.io/badge/tests-passing-brightgreen.svg" alt="test status">
-  <img src="https://img.shields.io/badge/coverage-100%25-success.svg" alt="coverage">
-</p>
 
+<p align="center">
+  <img src="logo/aProfiler_Logo_v1.png" alt="aProfiler Logo" width="260"/>
+</p>
 
 # **aProfiler**
 ## MSA Statistics & Visualization Toolkit
 **Designed for evolutionary insight, not just sequence bookkeeping.**  
 aProfiler profiles **Multiple Sequence Alignments (MSAs)** and emits **useful statistics, publication-grade plots, codon-aware metrics (RSCU and essential amino acid summaries), embeddings, and CSV tables** from a single command-line call.
+
+[![PyPI version](https://badge.fury.io/py/aprofiler.svg)](https://pypi.org/project/aprofiler/)
+[![Tests](https://github.com/<your-username>/aProfiler/actions/workflows/pytest.yml/badge.svg)](https://github.com/<your-username>/aProfiler/actions/workflows/pytest.yml)
+[![Python Versions](https://img.shields.io/pypi/pyversions/aprofiler)](https://pypi.org/project/aprofiler/)
+[![License](https://img.shields.io/pypi/l/aprofiler.svg)](https://pypi.org/project/aprofiler/)
 
 ---
 
