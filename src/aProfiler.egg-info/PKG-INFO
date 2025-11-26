@@ -1,0 +1,89 @@
+Metadata-Version: 2.4
+Name: aProfiler
+Version: 0.1.0
+Summary: aProfiler — Signal in. Insight out. Catchy MSA stats + viz in your CLI.
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: numpy
+Requires-Dist: pandas
+Requires-Dist: matplotlib
+Requires-Dist: seaborn
+Requires-Dist: biopython
+Requires-Dist: scipy
+Requires-Dist: scikit-learn
+Requires-Dist: plotnine
+Requires-Dist: tqdm
+Requires-Dist: logomaker
+Requires-Dist: umap-learn
+Dynamic: license-file
+
+# aProfiler (Alignment Profiler)
+
+aProfiler is a pre-model alignment profiling tool for Multiple Sequence Alignments (MSAs) that quantifies diversity, conservation, entropy, and gap structure; and creates output tables and visualizations
+
+## Test run
+
+Example code 
+
+```python3 profile.py --alignment data/Primate_TP53.codons.cln.fa --output results/Primate_TP53.codons.cln.fa.csv```
+
+Example output 
+
+```
+# ==============================================================================
+# Starting to profile multiple sequence alignment: data/Benchmark/adh.nex
+# ==============================================================================
+
+# Checking alignment for invariant sites
+100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 254/254 [00:01<00:00, 129.00it/s]
+# Checking NT Frequencies
+23it [00:00, 1686.99it/s]
+
+# Loading complete on an alignment with 23 sequences, and 254 codon sites
+
+# ==============================================================================
+# Reporting alignment statistics
+# ==============================================================================
+
+# The alignment has 27 invariant sites ( 10.62992125984252 % ) 
+# The alignment the following nucleotide frequencies...
+
+Nucleotide            Frequency
+------------------  -----------
+Adenine (A)            0.233253
+Thymine (T)            0.227091
+Guanine (G)            0.253509
+Cytosine (C)           0.286146
+Any Nucleotide (N)     0
+
+```
+
+
+# Package Structure
+
+aProfiler/
+├── src/
+│   └── aprofiler/
+│       ├── __init__.py
+│       ├── cli.py
+│       └── profiler.py
+├── pyproject.toml
+├── README.md
+└── LICENSE
+
+
+aProfiler/
+├── src/
+│   └── aprofiler/
+│       ├── __init__.py
+│       ├── cli.py
+│       └── profiler.py
+└── tests/
+    ├── data/
+    │   ├── toy_nt.fasta
+    │   ├── toy_aa.fasta
+    │   └── toy_codon.fasta
+    ├── test_nt_profile.py
+    ├── test_aa_profile.py
+    └── test_codon_profile.py

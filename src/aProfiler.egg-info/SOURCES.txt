@@ -1,0 +1,15 @@
+LICENSE
+README.md
+pyproject.toml
+src/aProfiler.egg-info/PKG-INFO
+src/aProfiler.egg-info/SOURCES.txt
+src/aProfiler.egg-info/dependency_links.txt
+src/aProfiler.egg-info/entry_points.txt
+src/aProfiler.egg-info/requires.txt
+src/aProfiler.egg-info/top_level.txt
+src/aprofiler/__init__.py
+src/aprofiler/cli.py
+src/aprofiler/profiler.py
+tests/test_aa_profile.py
+tests/test_codon_profile.py
+tests/test_nt_profile.py

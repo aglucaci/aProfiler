@@ -1,40 +1,30 @@
 [build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
 
 [project]
-name = "AlignmentProfiler"
-version = "1.0.4"
-authors = [
-  { name = "Alexander G Lucaci", email = "aglucaci@gmail.com" },
-]
-
-description = "A package to get summary statistics and diagnostics for a multiple sequence alignment"
+name = "aProfiler"
+version = "0.1.0"
+description = "aProfiler — Signal in. Insight out. Catchy MSA stats + viz in your CLI."
 readme = "README.md"
-requires-python = ">=3.7"
-license = { text = "MIT" }
+requires-python = ">=3.8"
 
-classifiers = [
-  "Programming Language :: Python :: 3",
-  "License :: OSI Approved :: MIT License",
-  "Operating System :: OS Independent",
-]
-
+# -------------------------------------------------------------------
+# 🔧 ALL DEPENDENCIES GET INSTALLED HERE
+# -------------------------------------------------------------------
 dependencies = [
-  "pandas>=1.5.0",
-  "numpy>=1.24.0",
-  "biopython>=1.85",
-  "matplotlib>=3.5",
-  "seaborn>=0.11",
-  "argparse; python_version<'3.10'",
-  "tqdm>=4.65.0",
-  "pytest"
+  "numpy",
+  "pandas",
+  "matplotlib",
+  "seaborn",          # optional styling for future plots
+  "biopython",        # FASTA parsing, MSA handling
+  "scipy",            # clustering, entropy, distance metrics
+  "scikit-learn",     # PCA/UMAP embeddings if needed
+  "plotnine",         # grammar-of-graphics plotting alternative
+  "tqdm",             # progress bars for large MSAs
+  "logomaker",        # sequence logo visualization
+  "umap-learn",       # dimensionality reduction visuals
 ]
 
-[project.urls]
-Homepage = "https://github.com/aglucaci/AlignmentProfiler"
-"Bug Tracker" = "https://github.com/aglucaci/AlignmentProfiler/issues"
-Repository = "https://github.com/aglucaci/AlignmentProfiler"
-
- [project.scripts]
- alignmentprofiler = "alignmentprofiler.cli:main"
+[project.scripts]
+aprofiler = "aprofiler.cli:main"
