@@ -7,7 +7,7 @@
   <img src="https://img.shields.io/badge/coverage-100%25-success.svg" alt="coverage">
 </p>
 
-````md
+
 # **aProfiler**
 ## MSA Statistics & Visualization Toolkit
 **Designed for evolutionary insight, not just sequence bookkeeping.**  
@@ -211,17 +211,3 @@ Issues, discussions, and pull requests are welcome. Ensure contributions are:
 ## Brand Identity
 
 aProfiler is **alignment-useful, metrics-first, codon-aware when requested, embedding-stable, plot-default, science-fun.**
-
-```
-
----
-
-### Optional next step (you don’t need to ask again for files):
-I can now generate:
-- `pyproject.toml` with **optional dependency split**
-- logo assets (`PNG` + `SVG`)
-- `conftest.py` import patch
-- richer docs with plot previews
-
-Just say: **generate project polish files**
-```
