@@ -1,6 +1,40 @@
 [build-system]
-requires = [
-    "setuptools>=42",
-    "wheel"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "AlignmentProfiler"
+version = "1.0.4"
+authors = [
+  { name = "Alexander G Lucaci", email = "aglucaci@gmail.com" },
 ]
-build-backend = "setuptools.build_meta"
+
+description = "A package to get summary statistics and diagnostics for a multiple sequence alignment"
+readme = "README.md"
+requires-python = ">=3.7"
+license = { text = "MIT" }
+
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+]
+
+dependencies = [
+  "pandas>=1.5.0",
+  "numpy>=1.24.0",
+  "biopython>=1.85",
+  "matplotlib>=3.5",
+  "seaborn>=0.11",
+  "argparse; python_version<'3.10'",
+  "tqdm>=4.65.0",
+  "pytest"
+]
+
+[project.urls]
+Homepage = "https://github.com/aglucaci/AlignmentProfiler"
+"Bug Tracker" = "https://github.com/aglucaci/AlignmentProfiler/issues"
+Repository = "https://github.com/aglucaci/AlignmentProfiler"
+
+ [project.scripts]
+ alignmentprofiler = "alignmentprofiler.cli:main"

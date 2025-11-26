@@ -1,98 +1,44 @@
+# aProfiler (Alignment Profiler)
 
-# Make sure you have upgraded version of pip
-Windows
-```
-py -m pip install --upgrade pip
-```
+aProfiler is a pre-model alignment profiling tool for Multiple Sequence Alignments (MSAs) that quantifies diversity, conservation, entropy, and gap structure; and creates output tables and visualizations
 
-Linux/MAC OS
-```
-python3 -m pip install --upgrade pip
-```
+## Test run
 
-## Create a project with the following structure
+Example code 
+
+```python3 profile.py --alignment data/Primate_TP53.codons.cln.fa --output results/Primate_TP53.codons.cln.fa.csv```
+
+Example output 
 
 ```
-packaging_tutorial/
-├── LICENSE
-├── pyproject.toml
-├── README.md
-├── setup.cfg
-├── src/
-│   └── example_package/
-│       ├── __init__.py
-│       └── example.py
-└── tests/
-touch LICENSE
-touch pyproject.toml
-touch setup.cfg
-mkdir src/mypackage
-touch src/mypackage/__init__.py
-touch src/mypackage/main.py
-mkdir tests
-```
+# ==============================================================================
+# Starting to profile multiple sequence alignment: data/Benchmark/adh.nex
+# ==============================================================================
 
-## pyproject.toml 
+# Checking alignment for invariant sites
+100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 254/254 [00:01<00:00, 129.00it/s]
+# Checking NT Frequencies
+23it [00:00, 1686.99it/s]
 
-This file tells tools like pip and build how to create your project
+# Loading complete on an alignment with 23 sequences, and 254 codon sites
 
-```
-[build-system]
-requires = [
-    "setuptools>=42",
-    "wheel"
-]
-build-backend = "setuptools.build_meta"
-```
-build-system.requires gives a list of packages that are needed to build your package. Listing something here will only make it available during the build, not after it is installed.
+# ==============================================================================
+# Reporting alignment statistics
+# ==============================================================================
 
-build-system.build-backend is the name of Python object that will be used to perform the build. If you were to use a different build system, such as flit or poetry, those would go here, and the configuration details would be completely different than the setuptools configuration described below.
+# The alignment has 27 invariant sites ( 10.62992125984252 % ) 
+# The alignment the following nucleotide frequencies...
 
-
-# Setup.cfg setup
-Using setup.cfg is a best practice, but you could have a dynamic setup file using setup.py
+Nucleotide            Frequency
+------------------  -----------
+Adenine (A)            0.233253
+Thymine (T)            0.227091
+Guanine (G)            0.253509
+Cytosine (C)           0.286146
+Any Nucleotide (N)     0
 
 ```
-[metadata]
-name = AlignmentProfiler
-version = 0.0.1
-author = Alexander G Lucaci
-author_email = alexander.lucaci@temple.edu
-description = A package to get summary statistics and diagnostics for a multiple sequence alignment.
-long_description = file: README.md
-long_description_content_type = text/markdown
-url = https://github.com/aglucaci/AlignmentProfiler
-project_urls =
-    Bug Tracker = https://github.com/aglucaci/AlignmentProfiler/issues
-classifiers =
-    Programming Language :: Python :: 3
-    License :: OSI Approved :: MIT License
-    Operating System :: OS Independent
 
-[options]
-package_dir =
-    = src
-packages = find:
-python_requires = >=3.6
 
-[options.packages.find]
-where = src
 
-```
-# Running the build
-### Make sure your build tool is up to date
-Windows
-```
-py -m pip install --upgrade build
-```
-Linux/MAC OS
-```
-python3 -m pip install --upgrade build
-```
 
-### Create the build
-```
-py -m build
-```
-### References
-https://packaging.python.org/tutorials/packaging-projects/
