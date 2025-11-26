@@ -5,11 +5,11 @@
 
 # **aProfiler**
 ## MSA Statistics & Visualization Toolkit
-**Designed for evolutionary insight, not just sequence bookkeeping.**  
-aProfiler profiles **Multiple Sequence Alignments (MSAs)** and emits **useful statistics, publication-grade plots, codon-aware metrics (RSCU and essential amino acid summaries), embeddings, and CSV tables** from a single command-line call.
+
+aProfiler examines **Multiple Sequence Alignments (MSAs)** and emits **useful statistics, publication-grade plots, codon-aware metrics (RSCU and essential amino acid summaries), embeddings, and CSV tables** from a single command-line call.
 
 [![PyPI version](https://badge.fury.io/py/aprofiler.svg)](https://pypi.org/project/aprofiler/)
-[![Tests](https://github.com/<your-username>/aProfiler/actions/workflows/pytest.yml/badge.svg)](https://github.com/aglucaci/aProfiler/actions/workflows/pytest.yml)
+[![Tests](https://github.com/aglucaci/aProfiler/actions/workflows/pytest.yml/badge.svg)](https://github.com/aglucaci/aProfiler/actions/workflows/pytest.yml)
 [![Python Versions](https://img.shields.io/pypi/pyversions/aprofiler)](https://pypi.org/project/aprofiler/)
 [![License](https://img.shields.io/pypi/l/aprofiler.svg)](https://pypi.org/project/aprofiler/)
 
