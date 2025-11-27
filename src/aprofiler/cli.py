@@ -42,6 +42,12 @@ def build_parser() -> argparse.ArgumentParser:
         default="html",
         help="Report format if --report is set (default: html).",
     )
+    parser.add_argument(
+        "--seed",
+        type=int,
+        default=None,
+        help="Random seed for any subsampling and UMAP embeddings.",
+    )
 
     return parser
 # end method
@@ -66,6 +72,7 @@ def main(argv=None):
         make_plots=make_plots,
         make_report=args.report,
         report_format=args.report_format,
+        seed=args.seed
     )
 
 

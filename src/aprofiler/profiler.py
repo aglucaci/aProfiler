@@ -9,34 +9,26 @@
 # =============================================================================
 
 from __future__ import annotations
-
 from collections import Counter
 from collections import defaultdict
 from pathlib import Path
 from typing import Dict, List, Tuple, Optional
-
 import csv
+import os
 import itertools
 import random
-
 import numpy as np
 import pandas as pd
-
 from Bio import SeqIO
 from scipy.stats import entropy
 from tqdm.auto import tqdm
-
 import matplotlib.pyplot as plt
 import seaborn as sns
-
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
-
 from umap import UMAP
-
 import logomaker as lm
 from plotnine import ggplot, aes, geom_point, theme_minimal, labs
-
 import warnings
 warnings.filterwarnings("ignore", category=UserWarning, module="umap")
 warnings.filterwarnings("ignore", category=UserWarning, module="plotnine")
@@ -126,6 +118,10 @@ class AlignmentProfiler:
         self.sequences = []
         self.alignment_length = 0
 
+        # makes results directory
+        self.out_dir.mkdir(parents=True, exist_ok=True)
+        
+        # makes results + path stem directory
         self.out_dir.mkdir(parents=True, exist_ok=True)
 
     # -------------------------------------------------------------------------
@@ -1264,7 +1260,9 @@ class AlignmentProfiler:
         return outputs
 
     
-
+# =============================================================================
+# Main
+# =============================================================================
 
 def run_profile(
     input_path: str,
@@ -1338,7 +1336,8 @@ def run_profile(
                 "[aProfiler] Warning: --summary-card requested, "
                 "but generate_summary_card(...) is not implemented in this version."
             )
-            
+    # end if
+# end method
 
 # =============================================================================
 # End of file

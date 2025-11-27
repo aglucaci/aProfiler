@@ -6,7 +6,7 @@
 # **aProfiler**
 ## MSA Statistics & Visualization Toolkit
 
-aProfiler examines **Multiple Sequence Alignments (MSAs)** and emits **useful statistics, publication-grade plots, codon-aware metrics (RSCU and essential amino acid summaries), embeddings, and CSV tables** from a single command-line call.
+aProfiler examines **Multiple Sequence Alignments (MSAs)** and delivers **useful statistics, publication-grade plots, codon-aware metrics (RSCU and essential amino acid summaries), embeddings, and CSV tables** from a single command-line call.
 
 [![PyPI version](https://badge.fury.io/py/aprofiler.svg)](https://pypi.org/project/aprofiler/)
 <!-- [![Tests](https://github.com/aglucaci/aProfiler/actions/workflows/pytest.yml/badge.svg)](https://github.com/aglucaci/aProfiler/actions/workflows/pytest.yml) -->
@@ -34,7 +34,8 @@ aprofiler --input {alignment.fasta} --mode auto --report
 aprofiler --input .\data\test-TP53-nt.fasta
 aprofiler --input .\data\test-TP53-nt.fasta --report
 aprofiler --input .\data\test-TP53-nt.fasta --report --mode codon
-aprofiler --input .\data\test-TP53-aa.fasta --report
+aprofiler --input .\data\test-TP53-aa.fasta --report --report-format md
+aprofiler --input .\data\test-TP53-aa.fasta --no-plots --mode aa
 ```
 
 ### Modes
@@ -127,29 +128,22 @@ results/
     TP53_pca_embedding.csv
     TP53_umap_embedding.csv
     TP53_report.html
-    plots/
-      TP53_nt_logo.png
-      TP53_entropy.png
-      TP53_gc.png
-      TP53_pca.png
-      TP53_umap.png
-      TP53_pairwise_identity.png
-      TP53_gap_fraction.png
-      TP53_rscu_heatmap.png
-      TP53_aa_essential_bar.png
+    TP53_nt_logo.png
+    TP53_entropy.png
+    TP53_gc.png
+    TP53_pca.png
+    TP53_umap.png
+    TP53_pairwise_identity.png
+    TP53_gap_fraction.png
+    TP53_rscu_heatmap.png
+    TP53_aa_essential_bar.png
 ```
 
 ---
 
 ## Scalability Notes
 
-> **Optimized for MSAs up to ~20k sequences × 10k columns on standard hardware. Larger inputs may require downsampling for logos/heatmaps (`--max-seqs`, `--max-sites`).**
-
----
-
-## Reproducibility
-
-> **All embeddings (PCA/UMAP) and stochastic plots use fixed `random_state` when `--seed` is passed for reproducibility.**
+> **Optimized for MSAs up to ~20k sequences × 10k columns on standard hardware. Larger inputs may require downsampling for logos/heatmaps*
 
 ---
 
