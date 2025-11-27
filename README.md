@@ -54,9 +54,9 @@ aprofiler --input .\data\test-TP53-aa.fasta --no-plots --mode aa
 | `--input`         | Input MSA file (FASTA MSA, A3M, or fixed-column alignment) |
 | `--mode`          | `nt`, `aa`, `codon`, or `auto`                             |
 | `--report`        | Generate a summary report (`.md` or `.html`)               |
-| `--report-format` | `md` or `html` (default: `html`)                             |
+| `--report-format` | `md` or `html` (default: `html`)                           |
 | `--no-plots`      | Skip plots, output CSV tables only                         |
-
+| `--seed`          | Set seed for PCA/UMAP reproducibility                      |
 ---
 
 ## Outputs (Saved Automatically)
