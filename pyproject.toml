@@ -1,30 +1,62 @@
 [build-system]
-requires = ["setuptools", "wheel"]
+requires = ["setuptools>=64", "wheel", "build"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "aProfiler"
-version = "0.1.0"
-description = "aProfiler — Signal in. Insight out. Catchy MSA stats + viz in your CLI."
+name = "aprofiler"
+version = "0.1.1"
+description = "aProfiler: MSA Statistics & Visualization Toolkit"
 readme = "README.md"
-requires-python = ">=3.8"
+requires-python = ">=3.10"
+license = { text = "MIT" }
 
-# -------------------------------------------------------------------
-# 🔧 ALL DEPENDENCIES GET INSTALLED HERE
-# -------------------------------------------------------------------
+authors = [
+  { name = "Alexander G. Lucaci" }
+]
+
+keywords = [
+  "bioinformatics",
+  "multiple sequence alignment",
+  "MSA",
+  "evolution",
+  "codon",
+  "sequence analysis",
+]
+
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Science/Research",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Scientific/Engineering :: Bio-Informatics",
+]
+
 dependencies = [
   "numpy",
   "pandas",
+  "scipy",
+  "biopython",
+  "scikit-learn",
   "matplotlib",
-  "seaborn",          # optional styling for future plots
-  "biopython",        # FASTA parsing, MSA handling
-  "scipy",            # clustering, entropy, distance metrics
-  "scikit-learn",     # PCA/UMAP embeddings if needed
-  "plotnine",         # grammar-of-graphics plotting alternative
-  "tqdm",             # progress bars for large MSAs
-  "logomaker",        # sequence logo visualization
-  "umap-learn",       # dimensionality reduction visuals
+  "seaborn",
+  "plotnine",
+  "logomaker",
+  "umap-learn",
+]
+
+[project.optional-dependencies]
+test = [
+  "pytest",
 ]
 
 [project.scripts]
 aprofiler = "aprofiler.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/aglucaci/aProfiler"
+Repository = "https://github.com/aglucaci/aProfiler.git"
+Issues = "https://github.com/aglucaci/aProfiler/issues"

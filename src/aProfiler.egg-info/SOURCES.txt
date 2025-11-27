@@ -10,6 +10,12 @@ src/aProfiler.egg-info/top_level.txt
 src/aprofiler/__init__.py
 src/aprofiler/cli.py
 src/aprofiler/profiler.py
+src/aprofiler.egg-info/PKG-INFO
+src/aprofiler.egg-info/SOURCES.txt
+src/aprofiler.egg-info/dependency_links.txt
+src/aprofiler.egg-info/entry_points.txt
+src/aprofiler.egg-info/requires.txt
+src/aprofiler.egg-info/top_level.txt
 tests/test_aa_profile.py
 tests/test_codon_profile.py
 tests/test_nt_profile.py

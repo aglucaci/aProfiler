@@ -18,23 +18,23 @@ aProfiler examines **Multiple Sequence Alignments (MSAs)** and emits **useful st
 ## Installation
 
 ```bash
-pip install -e .
+python -m pip install --index-url https://test.pypi.org/simple --extra-index-url https://pypi.org/simple aprofiler
 ````
-
-(For a future versioned release: `pip install aprofiler`)
-
 ---
 
 ## CLI Usage
 
 ```bash
-aprofiler --input alignment.fasta --mode auto --report
+aprofiler --input {alignment.fasta} --mode auto --report
+```
 
-Examples on test data:
+## Examples on test data
+
+```bash
+aprofiler --input .\data\test-TP53-nt.fasta
 aprofiler --input .\data\test-TP53-nt.fasta --report
 aprofiler --input .\data\test-TP53-nt.fasta --report --mode codon
 aprofiler --input .\data\test-TP53-aa.fasta --report
-
 ```
 
 ### Modes
@@ -53,7 +53,7 @@ aprofiler --input .\data\test-TP53-aa.fasta --report
 | `--input`         | Input MSA file (FASTA MSA, A3M, or fixed-column alignment) |
 | `--mode`          | `nt`, `aa`, `codon`, or `auto`                             |
 | `--report`        | Generate a summary report (`.md` or `.html`)               |
-| `--report-format` | `md` or `html` (default: `md`)                             |
+| `--report-format` | `md` or `html` (default: `html`)                             |
 | `--no-plots`      | Skip plots, output CSV tables only                         |
 
 ---
@@ -190,10 +190,8 @@ print("Report saved to:", report_path)
 If you use aProfiler in a publication, please cite:
 
 ```
-Lucaci, Alexander G., *aProfiler: MSA Statistics & Visualization Toolkit*, 2025.
+TBD
 ```
-
-For formal reproducible citation, you can later replace this with a Zenodo or PyPI DOI once released.
 
 ---
 

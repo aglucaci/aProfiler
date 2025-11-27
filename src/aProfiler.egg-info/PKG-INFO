@@ -1,21 +1,37 @@
 Metadata-Version: 2.4
-Name: aProfiler
-Version: 0.1.0
-Summary: aProfiler — Signal in. Insight out. Catchy MSA stats + viz in your CLI.
-Requires-Python: >=3.8
+Name: aprofiler
+Version: 0.1.1
+Summary: aProfiler: MSA Statistics & Visualization Toolkit
+Author: Alexander G. Lucaci
+License: MIT
+Project-URL: Homepage, https://github.com/aglucaci/aProfiler
+Project-URL: Repository, https://github.com/aglucaci/aProfiler.git
+Project-URL: Issues, https://github.com/aglucaci/aProfiler/issues
+Keywords: bioinformatics,multiple sequence alignment,MSA,evolution,codon,sequence analysis
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Scientific/Engineering :: Bio-Informatics
+Requires-Python: >=3.10
 Description-Content-Type: text/markdown
 License-File: LICENSE
 Requires-Dist: numpy
 Requires-Dist: pandas
+Requires-Dist: scipy
+Requires-Dist: biopython
+Requires-Dist: scikit-learn
 Requires-Dist: matplotlib
 Requires-Dist: seaborn
-Requires-Dist: biopython
-Requires-Dist: scipy
-Requires-Dist: scikit-learn
 Requires-Dist: plotnine
-Requires-Dist: tqdm
 Requires-Dist: logomaker
 Requires-Dist: umap-learn
+Provides-Extra: test
+Requires-Dist: pytest; extra == "test"
 Dynamic: license-file
 
 

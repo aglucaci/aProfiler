@@ -1,11 +1,13 @@
 numpy
 pandas
+scipy
+biopython
+scikit-learn
 matplotlib
 seaborn
-biopython
-scipy
-scikit-learn
 plotnine
-tqdm
 logomaker
 umap-learn
+
+[test]
+pytest
