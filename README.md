@@ -1,6 +1,6 @@
 
 <p align="center">
-  <img src="logo/aProfiler_Logo_v1.png" alt="aProfiler Logo" width="260"/>
+  <img src="https://github.com/aglucaci/aProfiler/blob/main/logo/aProfiler_Logo_v1.png" alt="aProfiler Logo" width="260"/>
 </p>
 
 # **aProfiler**
@@ -18,7 +18,7 @@ aProfiler examines **Multiple Sequence Alignments (MSAs)** and delivers **useful
 ## Installation
 
 ```bash
-python -m pip install --index-url https://test.pypi.org/simple --extra-index-url https://pypi.org/simple aprofiler
+pip install aprofiler
 ````
 ---
 
@@ -27,6 +27,30 @@ python -m pip install --index-url https://test.pypi.org/simple --extra-index-url
 ```bash
 aprofiler --input {alignment.fasta} --mode auto --report
 ```
+
+## CLI Help 
+
+```bash
+aprofiler --help
+
+usage: aprofiler [-h] --input INPUT [--mode {nt,aa,codon,auto}] [--no-plots]
+                 [--report] [--report-format {md,html}] [--seed SEED]
+
+aProfiler — MSA statistics & visualization.
+
+options:
+  -h, --help            show this help message and exit
+  --input INPUT         Input MSA file (FASTA/A3M/ALN/etc.)
+  --mode {nt,aa,codon,auto}
+                        Sequence type mode (nt, aa, codon, or auto-detect).
+  --no-plots            Disable plot generation (CSV only).
+  --report              Generate a summary report (HTML by default).
+  --report-format {md,html}
+                        Report format if --report is set (default: html).
+  --seed SEED           Random seed for any subsampling and UMAP embeddings.
+
+```
+
 
 ## Examples on test data
 
@@ -123,13 +147,13 @@ All results are saved under:
 ```
 results/
   TP53_alignment/
-    TP53_global_freqs.csv
+    TP53_global_freqs.csv             # Tables
     TP53_nt_per_site.csv
     TP53_pca_embedding.csv
     TP53_umap_embedding.csv
-    TP53_report.html
-    TP53_nt_logo.png
-    TP53_entropy.png
+    TP53_report.html                  # Report in HTML format
+    TP53_nt_logo.png                  # Plots
+    TP53_entropy.png                 
     TP53_gc.png
     TP53_pca.png
     TP53_umap.png
